@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/GUI">
+        <file>camera_icon.png</file>
+        <file>open_folder_icon.png</file>
+        <file>ruler_icon.png</file>
+    </qresource>
+</RCC>
