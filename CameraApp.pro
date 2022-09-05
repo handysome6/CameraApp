@@ -13,6 +13,7 @@ INCLUDEPATH += . \
 DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += warn_off
 CONFIG += c++11
+QT += concurrent
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 LIBS += \
@@ -28,14 +29,16 @@ LIBS += \
 
 # Input
 HEADERS += headers/mainwidget.h \
-           headers/threadworker.h \
 		   headers/sessionholder.h \
+		   headers/cameraholder.h \
+		   headers/providerthread.h \
 		   headers/consumerthread.h \
 		   headers/constants.h
 SOURCES += main.cpp \
     src/mainwidget.cpp \
-    src/threadworker.cpp \
 	src/sessionholder.cpp \
+	src/cameraholder.cpp \
+	src/providerthread.cpp \
 	src/consumerthread.cpp 
 FORMS += src/mainwidget.ui
 RESOURCES += resources/resources.qrc

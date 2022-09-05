@@ -125,6 +125,8 @@ bool ConsumerThread::consumerInitialize()
 
 bool ConsumerThread::fetchFrame(int deviceID, bool showInfo, bool modePreview)
 {
+    if (showInfo)
+        CONSUMER_PRINT("fetching frame of device %d\n", deviceID);
     int i = deviceID;
     uint64_t frameNumber;
     uint64_t timeStamp;

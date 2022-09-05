@@ -1,7 +1,7 @@
 #ifndef MAINWIDGET_H
 #define MAINWIDGET_H
 
-#include "threadworker.h"
+#include "cameraholder.h"
 #include <QWidget>
 
 namespace Ui {
@@ -26,7 +26,7 @@ signals:
 
 private:
     Ui::MainWidget *ui;
-    ThreadWorker* worker;
+    CameraHolder* cameraHolder;
     QWidget *pWid;
 };
 

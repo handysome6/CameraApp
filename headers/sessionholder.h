@@ -16,9 +16,9 @@ public:
 
     bool initialize(std::vector<CameraDevice*> &cameraDevices, ICameraProvider* iCameraProvider, NvEglRenderer* g_renderer);
 
-    CaptureSession* getSession() const
+    ICaptureSession* getSession() const
     {
-        return m_captureSession.get();
+        return iCaptureSession;
     }
 
 
@@ -40,6 +40,7 @@ public:
 
 private:
     UniqueObj<CaptureSession> m_captureSession;
+    ICaptureSession* iCaptureSession;
     UniqueObj<OutputStream> leftCaptureStream;
     UniqueObj<OutputStream> rightCaptureStream;
     UniqueObj<Request> m_request;

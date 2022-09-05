@@ -12,7 +12,7 @@ SessionHolder::~SessionHolder()
     // right_outputStream.reset();
 }
 
-bool SessionHolder::initialize(std::vector<CameraDevice*> &cameraDevices, ICameraProvider* iCameraProvider, NvEglRenderer* g_renderer)
+bool SessionHolder::initialize(std::vector<CameraDevice*> &cameraDevices, ICameraProvider *iCameraProvider, NvEglRenderer* g_renderer)
 {
     PRODUCER_PRINT("initializing session holder..\n");
 
@@ -27,10 +27,9 @@ bool SessionHolder::initialize(std::vector<CameraDevice*> &cameraDevices, ICamer
         ORIGINATE_ERROR(("Failed to create CaptureSession" + s).c_str());
     }
 
-    ICaptureSession* iCaptureSession = interface_cast<ICaptureSession>(m_captureSession);
+    iCaptureSession = interface_cast<ICaptureSession>(m_captureSession);
     if ( !iCaptureSession )
         ORIGINATE_ERROR("Failed to create iCaptureSession");
-    PRODUCER_PRINT("capture session ok\n");
 
 
     // create general stream setting, OutputStream and EglStream
@@ -45,7 +44,6 @@ bool SessionHolder::initialize(std::vector<CameraDevice*> &cameraDevices, ICamer
 
     iEglStreamSettings->setPixelFormat(PIXEL_FMT_YCbCr_420_888);
 
-    PRODUCER_PRINT("create OutputStreamSettings ok\n");
 
     /* Config Egl Stream setting, capture, left */
     iEglStreamSettings->setResolution(CAPTURE_SIZE);
@@ -57,7 +55,6 @@ bool SessionHolder::initialize(std::vector<CameraDevice*> &cameraDevices, ICamer
     /* Config Egl Stream setting, capture, right */
     iStreamSettings->setCameraDevice(cameraDevices[1]);
     rightCaptureStream.reset(iCaptureSession->createOutputStream(streamSettings.get()));
-    PRODUCER_PRINT("create rightCaptureStream ok\n");
 
 
 
