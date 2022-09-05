@@ -48,8 +48,6 @@ bool SessionHolder::initialize(std::vector<CameraDevice*> &cameraDevices, ICamer
     /* Config Egl Stream setting, capture, left */
     iEglStreamSettings->setResolution(CAPTURE_SIZE);
     iEglStreamSettings->setMetadataEnable(true);
-    // iEglStreamSettings->setEGLDisplay(g_renderer->getEGLDisplay());
-    // iStreamSettings->setCameraDevice(cameraDevices[0]);
     leftCaptureStream.reset(iCaptureSession->createOutputStream(streamSettings.get()));
 
     /* Config Egl Stream setting, capture, right */

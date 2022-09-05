@@ -2,6 +2,7 @@
 #include <string>
 #include <ctime>
 #include <locale>
+#include <QThread>
 
 ConsumerThread::ConsumerThread(std::vector<OutputStream*>& streams, 
     NvEglRenderer* renderer) :
@@ -12,6 +13,7 @@ ConsumerThread::ConsumerThread(std::vector<OutputStream*>& streams,
     m_renderer(renderer)
 {
     threadInitialize();
+    sbsBufferInitialize();
 }
 
 
@@ -33,7 +35,7 @@ ConsumerThread::~ConsumerThread()
 
 bool ConsumerThread::threadInitialize()
 {
-    NvBufferRect dstCompRect[6];
+    NvBufferRect dstCompRect[2];
     int32_t spacing = 10;
     NvBufferCreateParams input_params = { 0 };
 
@@ -104,6 +106,52 @@ bool ConsumerThread::threadInitialize()
     return true;
 }
 
+bool ConsumerThread::sbsBufferInitialize()
+{
+    NvBufferRect dstCompRect[2];
+    NvBufferCreateParams input_params = { 0 };
+
+    dstCompRect[0].top = 0;
+    dstCompRect[0].left = 0;
+    dstCompRect[0].width = CAPTURE_SIZE.width();
+    dstCompRect[0].height = CAPTURE_SIZE.height();
+
+    dstCompRect[1].top = 0;
+    dstCompRect[1].left = CAPTURE_SIZE.width();
+    dstCompRect[1].width = CAPTURE_SIZE.width();
+    dstCompRect[1].height = CAPTURE_SIZE.height();
+
+    /* Allocate composited buffer */
+    input_params.payloadType = NvBufferPayload_SurfArray;
+    input_params.width = CAPTURE_SIZE.width() * 2;
+    input_params.height = CAPTURE_SIZE.height();
+    input_params.layout = NvBufferLayout_Pitch;
+    input_params.colorFormat = NvBufferColorFormat_YUV420;
+    input_params.nvbuf_tag = NvBufferTag_VIDEO_CONVERT;
+
+    NvBufferCreateEx(&m_sbsFrame, &input_params);
+    if (!m_sbsFrame)
+        ORIGINATE_ERROR("Failed to allocate sbs buffer");
+
+    /* Initialize composite parameters */
+    memset(&m_sbsParam, 0, sizeof(m_sbsParam));
+    m_sbsParam.composite_flag = NVBUFFER_COMPOSITE;
+    m_sbsParam.input_buf_count = m_streams.size();
+    memcpy(m_sbsParam.dst_comp_rect, dstCompRect,
+        sizeof(NvBufferRect) * m_sbsParam.input_buf_count);
+    for (uint32_t i = 0; i < 2; i++)
+    {
+        m_sbsParam.dst_comp_rect_alpha[i] = 1.0f;
+        m_sbsParam.src_comp_rect[i].top = 0;
+        m_sbsParam.src_comp_rect[i].left = 0;
+        m_sbsParam.src_comp_rect[i].width = CAPTURE_SIZE.width();
+        m_sbsParam.src_comp_rect[i].height = CAPTURE_SIZE.height();
+    }
+
+
+    return true;
+}
+
 
 bool ConsumerThread::consumerInitialize()
 {
@@ -125,8 +173,8 @@ bool ConsumerThread::consumerInitialize()
 
 bool ConsumerThread::fetchFrame(int deviceID, bool showInfo, bool modePreview)
 {
-    if (showInfo)
-        CONSUMER_PRINT("fetching frame of device %d\n", deviceID);
+    // if (showInfo)
+    //     CONSUMER_PRINT("fetching frame of device %d\n", deviceID);
     int i = deviceID;
     uint64_t frameNumber;
     uint64_t timeStamp;
@@ -224,32 +272,32 @@ void ConsumerThread::startCapture()
 
 void ConsumerThread::capture()
 {
+    CONSUMER_PRINT("creating sbs img file...\n");
+    QThread::msleep(100);
+    /* composite sbs frame*/
+    if (!m_dmabufs[0] || !m_dmabufs[1]){
+        CONSUMER_PRINT("Error when compositing SBS frame.\n");
+        return ;
+    }
+    CONSUMER_PRINT("encoding buffer into sbs...\n");
+    NvBufferComposite(m_dmabufs, m_sbsFrame, &m_sbsParam);
+    CONSUMER_PRINT("encoding successful...\n");
+
+    /* create timestamp for filename */
     std::time_t t = std::time(nullptr);
     char t_format[100];
     std::strftime(t_format, sizeof(t_format), "%m%d%H%M%s", std::localtime(&t));
     std::string filename(t_format);
-    for (int32_t i = 0; i < MAX_CAMERA_NUM; i++)
-    {
-        if (i == 0)
-        {
-            // sprintf(filename, "left-output%03u.jpg", (unsigned)frameNumber);
-            filename += "left.jpg";
-        }
-        if (i == 1)
-        {
-            // sprintf(filename, "right-output%03u.jpg", (unsigned)frameNumber);
-            filename += "right.jpg";
-        }
+    filename = "sbs_" + filename + ".jpg";
 
-        std::ofstream* outputFile = new std::ofstream(filename);
-        if (outputFile)
-        {
-            unsigned long size = JPEG_BUFFER_SIZE;
-            unsigned char* buffer = m_OutputBuffer;
-            m_JpegEncoder->encodeFromFd(m_dmabufs[i], JCS_YCbCr, &buffer, size, 100);
-            outputFile->write((char*)buffer, size);
-            delete outputFile;
-        }
+    std::ofstream* outputFile = new std::ofstream(filename);
+    if (outputFile)
+    {
+        unsigned long size = JPEG_BUFFER_SIZE;
+        unsigned char* buffer = m_OutputBuffer;
+        m_JpegEncoder->encodeFromFd(m_sbsFrame, JCS_YCbCr, &buffer, size, 100);
+        outputFile->write((char*)buffer, size);
+        delete outputFile;
     }
 
     preview_mode = true;

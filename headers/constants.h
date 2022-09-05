@@ -41,7 +41,7 @@ static bool                DO_STAT = false;
 static  uint32_t           DEFAULT_FPS = 30;
 
 
-#define JPEG_BUFFER_SIZE    (CAPTURE_SIZE.area() * 3 / 2)
+#define JPEG_BUFFER_SIZE    (CAPTURE_SIZE.area() * 3 )
 
 /* Debug print macros */
 #define PRODUCER_PRINT(...) printf("PRODUCER: " __VA_ARGS__)

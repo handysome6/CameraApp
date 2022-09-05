@@ -23,6 +23,7 @@ public slots:
 
 protected:
     bool threadInitialize();
+    bool sbsBufferInitialize();
     bool consumerInitialize();
     bool fetchFrame(int deviceID, bool showInfo, bool modePreview);
     void capture();
@@ -30,8 +31,11 @@ protected:
     std::vector<OutputStream*>& m_streams;
     UniqueObj<FrameConsumer> m_consumers[MAX_CAMERA_NUM];
     int m_dmabufs[MAX_CAMERA_NUM];
-    NvBufferCompositeParams m_compositeParam;
     int m_compositedFrame;
+    NvBufferCompositeParams m_compositeParam;
+
+    int m_sbsFrame;
+    NvBufferCompositeParams m_sbsParam;
 
     NvJPEGEncoder* m_JpegEncoder;
     unsigned char* m_OutputBuffer;
