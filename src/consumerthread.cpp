@@ -262,8 +262,8 @@ bool ConsumerThread::startPreview()
 
 void ConsumerThread::startCapture()
 {
-    fetchFrame(0, true, false);
-    fetchFrame(1, true, false);
+    // fetchFrame(0, true, false);
+    // fetchFrame(1, true, false);
 
     capture();
     

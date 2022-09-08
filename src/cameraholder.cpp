@@ -85,8 +85,8 @@ void CameraHolder::captureFrame()
     QThread::msleep(100);
 
     // send capture request
-    CONSUMER_PRINT("sending capture request...\n");
-    iCaptureSession->capture(request);
+    // CONSUMER_PRINT("sending capture request...\n");
+    // iCaptureSession->capture(request);
     consumerThread->startCapture();
     CONSUMER_PRINT("capture successful\n");
 
