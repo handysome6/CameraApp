@@ -3,6 +3,7 @@
 
 #include "constants.h"
 #include <QObject>
+#include <string>
 
 
 class ConsumerThread : public QObject 
@@ -15,7 +16,7 @@ public:
     bool allFramesEmpty();
 
 signals:
-    void captureSucceed();
+    void captureSucceed(std::string);
 
 public slots:
     bool startPreview();

@@ -1,5 +1,6 @@
 #include "cameraholder.h"
 #include <QtConcurrent>
+#include <string>
 
 CameraHolder::CameraHolder()
 {
@@ -53,7 +54,7 @@ bool CameraHolder::initAll()
         consumerThread->moveToThread(thread);
         connect(thread, SIGNAL(started()), consumerThread, SLOT(startPreview()));
         connect(this, SIGNAL(startSignal()), consumerThread, SLOT(startPreview()));
-        connect(consumerThread, SIGNAL(captureSucceed()), consumerThread, SLOT(startPreview()));
+        connect(consumerThread, SIGNAL(captureSucceed(std::string)), this, SINGAL(captureSucceed(std::string)));
         thread->start();
     }
 

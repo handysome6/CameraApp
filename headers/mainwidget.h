@@ -3,6 +3,7 @@
 
 #include "cameraholder.h"
 #include <QWidget>
+#include <string>
 
 namespace Ui {
 class MainWidget;
@@ -20,6 +21,7 @@ private slots:
     void on_xWindowReady(int x);
     void on_openFile_clicked();
     void on_takePhoto_clicked();
+    void on_captureSucceed(std::string);
 
 signals:
     void captureSignal();
@@ -28,6 +30,7 @@ private:
     Ui::MainWidget *ui;
     CameraHolder* cameraHolder;
     QWidget *pWid;
+    std::string img_path;
 };
 
 #endif // MAINWIDGET_H

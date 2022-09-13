@@ -1,5 +1,4 @@
 #include "consumerthread.h"
-#include <string>
 #include <ctime>
 #include <locale>
 #include <QThread>
@@ -299,6 +298,7 @@ void ConsumerThread::capture()
         outputFile->write((char*)buffer, size);
         delete outputFile;
     }
+    emit captureSucceed(filename);
 
     preview_mode = true;
 }

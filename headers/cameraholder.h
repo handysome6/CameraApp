@@ -29,6 +29,7 @@ signals:
     void xWindowReady(int);
     void startSignal();
     void finished();
+    void captureSucceed(std::string);
 
 private:
     // add your variables here
