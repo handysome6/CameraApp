@@ -4,6 +4,7 @@
 #include "cameraholder.h"
 #include <QWidget>
 #include <string>
+#include <QString>
 
 namespace Ui {
 class MainWidget;

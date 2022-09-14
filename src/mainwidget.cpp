@@ -66,6 +66,7 @@ void MainWidget::on_openFile_clicked()
     if (!fileName.isEmpty())
     {
         qDebug() << "Selected photo: " << fileName;
+        std::string img_path = fileName.toStdString();
         // call External measure code... TODO
     }
 }
@@ -81,9 +82,9 @@ void MainWidget::on_takePhoto_clicked()
 
 void MainWidget::on_measure_clicked()
 {
-    if (img_path)
+    if (!img_path.empty())
     {
-        qDebug() << "Measure new photo: " << img_path;
+        qDebug() << "Measure new photo: " << img_path.c_str();
         // call External measure code... TODO
     }
 }
