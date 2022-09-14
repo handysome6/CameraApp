@@ -19,9 +19,10 @@ public:
 
 private slots:
     void on_xWindowReady(int x);
+    void on_captureSucceed(std::string);
     void on_openFile_clicked();
     void on_takePhoto_clicked();
-    void on_captureSucceed(std::string);
+    void on_measure_clicked();
 
 signals:
     void captureSignal();

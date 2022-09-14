@@ -63,7 +63,7 @@ void MainWidget::on_openFile_clicked()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Select a sbs photo..."),
                                                 "/home/jetson/qtprojects/CameraApp",
                                                 tr("Images (*.png *.jpg)"));
-    if (fileName)
+    if (!fileName.isEmpty())
     {
         qDebug() << "Selected photo: " << fileName;
         // call External measure code... TODO
