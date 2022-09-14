@@ -35,6 +35,8 @@ static const Argus::Size2D<uint32_t>    STREAM_SIZE(734, 554);
 static const Argus::Size2D<uint32_t>    CAPTURE_SIZE(4032, 3040);
 
 
+int flip_flag = 0;
+
 
 /* Globals */
 static bool                DO_STAT = false;
