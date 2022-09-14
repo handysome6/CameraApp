@@ -22,7 +22,7 @@
 #include <fstream>
 #include <thread>
 
-#include <JetsonGPIO.h>
+//#include <JetsonGPIO.h>
 
 using namespace Argus;
 using namespace EGLStream;

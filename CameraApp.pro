@@ -7,6 +7,7 @@ TARGET = CameraApp
 INCLUDEPATH += . \
     $$PWD/headers \
     $$PWD/third_party/include \
+    $$PWD/third_party/utils \
     $$PWD/third_party/include/libjpeg-8b \
     /usr/include/libdrm 
 
