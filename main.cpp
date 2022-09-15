@@ -6,7 +6,8 @@
 
 int main(int argc, char *argv[])
 {
-    int fflag = 0;
+    int hflag = 0;
+    // int flip_flag = 0;
     int c;
 
 
@@ -17,7 +18,7 @@ int main(int argc, char *argv[])
                 hflag = 1;
                 break;
             case('f'):
-                flip_flag = 1;
+                // flip_flag = 1;
                 break;
             default:
                 exit();

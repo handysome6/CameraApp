@@ -3,6 +3,8 @@
 #include <locale>
 #include <QThread>
 
+int flip_flag = 0;
+
 ConsumerThread::ConsumerThread(std::vector<OutputStream*>& streams, 
     NvEglRenderer* renderer) :
     m_streams(streams),
