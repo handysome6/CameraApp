@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QThread>
 #include <QWindow>
+#include <QFileDialog>
 
 
 MainWidget::MainWidget(QWidget *parent) :
@@ -19,7 +20,7 @@ MainWidget::MainWidget(QWidget *parent) :
     cameraHolder->moveToThread(thread);
     connect(thread, SIGNAL(started()), cameraHolder, SLOT(initAll()));
     connect(cameraHolder, SIGNAL(xWindowReady(int)), this, SLOT(on_xWindowReady(int)));
-    // connect(this, SIGNAL(captureSignal()), worker, SLOT(captureFrame()));
+    connect(cameraHolder, SIGNAL(captureSucceed(std::string)), this, SLOT(captureFrame()));
     // connect(worker, SIGNAL(finished()), thread, SLOT(quit()));
     // connect(worker, SIGNAL(finished()), worker, SLOT(deleteLater()));
     // connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
@@ -49,11 +50,25 @@ void MainWidget::on_xWindowReady(int wid)
     QThread::msleep(10);
 }
 
+void MainWidget::on_captureSucceed(std::string img_path)
+{
+    this->img_path = img_path;
+}
+
+
 void MainWidget::on_openFile_clicked()
 {
-    qDebug() << "width: " << pWid->width();
-    qDebug() << "height: " << pWid->height();
-
+    // qDebug() << "width: " << pWid->width();
+    // qDebug() << "height: " << pWid->height();
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Select a sbs photo..."),
+                                                "/home/jetson/qtprojects/CameraApp",
+                                                tr("Images (*.png *.jpg)"));
+    if (!fileName.isEmpty())
+    {
+        qDebug() << "Selected photo: " << fileName;
+        std::string img_path = fileName.toStdString();
+        // call External measure code... TODO
+    }
 }
 
 void MainWidget::on_takePhoto_clicked()
@@ -63,4 +78,13 @@ void MainWidget::on_takePhoto_clicked()
     // QThread::sleep(1);
     // emit captureSignal();
     cameraHolder->captureFrame();
+}
+
+void MainWidget::on_measure_clicked()
+{
+    if (!img_path.empty())
+    {
+        qDebug() << "Measure new photo: " << img_path.c_str();
+        // call External measure code... TODO
+    }
 }

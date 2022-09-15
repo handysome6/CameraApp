@@ -36,6 +36,7 @@ static const Argus::Size2D<uint32_t>    CAPTURE_SIZE(4032, 3040);
 
 
 
+
 /* Globals */
 static bool                DO_STAT = false;
 static  uint32_t           DEFAULT_FPS = 30;

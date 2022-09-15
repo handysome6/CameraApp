@@ -1,8 +1,9 @@
 #include "consumerthread.h"
-#include <string>
 #include <ctime>
 #include <locale>
 #include <QThread>
+
+int flip_flag = 0;
 
 ConsumerThread::ConsumerThread(std::vector<OutputStream*>& streams, 
     NvEglRenderer* renderer) :
@@ -218,14 +219,16 @@ bool ConsumerThread::fetchFrame(int deviceID, bool showInfo, bool modePreview)
             iEglOutputStreams[i]->getResolution(),
             NvBufferColorFormat_YUV420,
             NvBufferLayout_BlockLinear,
-            NV::ROTATION_180     // directly retrive rotated image !!!
+            flip_flag ? NV::ROTATION_180 : NV::ROTATION_0   // directly retrive rotated image !!!
         );
         if (!m_dmabufs[i])
             CONSUMER_PRINT("\tFailed to create NvBuffer\n");
     }
     else if (
         iNativeBuffer->copyToNvBuffer(
-            m_dmabufs[i], NV::ROTATION_180) != STATUS_OK)
+            m_dmabufs[i], 
+            flip_flag ? NV::ROTATION_180 : NV::ROTATION_0
+        ) != STATUS_OK)
     {
         ORIGINATE_ERROR("Failed to copy frame to NvBuffer.");
     }
@@ -299,6 +302,7 @@ void ConsumerThread::capture()
         outputFile->write((char*)buffer, size);
         delete outputFile;
     }
+    emit captureSucceed(filename);
 
     preview_mode = true;
 }
