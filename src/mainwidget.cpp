@@ -1,11 +1,14 @@
 #include "mainwidget.h"
 #include "ui_mainwidget.h"
 #include "measure.h"
+#include "i2cworker.h"
+#include "imuworker.h"
 
 #include <QDebug>
 #include <QThread>
 #include <QWindow>
 #include <QFileDialog>
+#include <QString>
 
 std::string camera_path = "/home/jetson/CameraApp/example/camera_model.json";
 
@@ -29,12 +32,58 @@ MainWidget::MainWidget(QWidget *parent) :
     // connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
     thread->start();
 
+    startI2CWorker();
+    startIMUWorker();
 }
 
 MainWidget::~MainWidget()
 {
     delete ui;
 }
+
+
+void MainWidget::startI2CWorker()
+{
+    QThread* thread = new QThread;
+    I2CWorker* i2cWorker = new I2CWorker();
+    i2cWorker->moveToThread(thread);
+    connect(thread, SIGNAL(started()), i2cWorker, SLOT(readTemp()));
+    connect(i2cWorker, SIGNAL(tempSignal(float)), this, SLOT(on_tempUpdated(float)));
+    thread->start();
+}
+
+void MainWidget::startIMUWorker()
+{
+    QThread* thread = new QThread;
+    IMUWorker* imuWorker = new IMUWorker();
+    imuWorker->moveToThread(thread);
+    connect(thread, SIGNAL(started()), imuWorker, SLOT(readXYZ()));
+    connect(
+        imuWorker, SIGNAL(xyzSignal(float, float, float)), 
+        this, SLOT(on_xyzUpdated(float, float, float))
+    );
+    thread->start();
+}
+
+void MainWidget::on_tempUpdated(float temp)
+{
+    tempInfo = QString("T: %1 %2 \n").arg(
+        QString::number(temp), 
+        QString::fromUtf8("°C")
+    );
+    ui->infoArea->setText(tempInfo + xyzInfo);
+}
+
+void MainWidget::on_xyzUpdated(float x, float y, float z)
+{
+    xyzInfo = QString("X: %1\nY: %2\nZ: %3\n").arg(
+        QString::number(x), 
+        QString::number(y), 
+        QString::number(z)
+    );
+    ui->infoArea->setText(tempInfo + xyzInfo);
+}
+
 
 void MainWidget::on_xWindowReady(int wid)
 {
@@ -65,7 +114,7 @@ void MainWidget::on_openFile_clicked()
     // qDebug() << "width: " << pWid->width();
     // qDebug() << "height: " << pWid->height();
     QString fileName = QFileDialog::getOpenFileName(this, tr("Select a sbs photo..."),
-                                                "/home/jetson/qtprojects/CameraApp",
+                                                "/home/jetson/CameraApp",
                                                 tr("Images (*.png *.jpg)"));
     if (!fileName.isEmpty())
     {

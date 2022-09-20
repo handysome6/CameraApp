@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>712</width>
+    <width>599</width>
     <height>467</height>
    </rect>
   </property>
@@ -456,13 +456,13 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="resources.qrc">
+        <iconset resource="../resources/resources.qrc">
          <normaloff>:/GUI/open_folder_icon.png</normaloff>:/GUI/open_folder_icon.png</iconset>
        </property>
        <property name="iconSize">
         <size>
-         <width>85</width>
-         <height>85</height>
+         <width>75</width>
+         <height>75</height>
         </size>
        </property>
        <property name="flat">
@@ -476,13 +476,13 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="resources.qrc">
+        <iconset resource="../resources/resources.qrc">
          <normaloff>:/GUI/camera_icon.png</normaloff>:/GUI/camera_icon.png</iconset>
        </property>
        <property name="iconSize">
         <size>
-         <width>85</width>
-         <height>85</height>
+         <width>75</width>
+         <height>75</height>
         </size>
        </property>
        <property name="flat">
@@ -496,13 +496,13 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="resources.qrc">
+        <iconset resource="../resources/resources.qrc">
          <normaloff>:/GUI/ruler_icon.png</normaloff>:/GUI/ruler_icon.png</iconset>
        </property>
        <property name="iconSize">
         <size>
-         <width>85</width>
-         <height>85</height>
+         <width>75</width>
+         <height>75</height>
         </size>
        </property>
        <property name="flat">
@@ -512,11 +512,24 @@
      </item>
     </layout>
    </item>
+   <item>
+    <widget class="QTextEdit" name="infoArea">
+     <property name="maximumSize">
+      <size>
+       <width>100</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="resources.qrc"/>
+  <include location="../resources/resources.qrc"/>
  </resources>
  <connections/>
 </ui>

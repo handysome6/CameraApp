@@ -9,6 +9,8 @@ INCLUDEPATH += . \
     $$PWD/third_party/include \
     $$PWD/third_party/utils \
     $$PWD/third_party/include/libjpeg-8b \
+    $$PWD/third_party/i2c \
+	$$PWD/third_party/imu \
     /usr/include/libdrm \
 	/usr/local/include/opencv4
 
@@ -40,7 +42,11 @@ HEADERS += headers/mainwidget.h \
 		   headers/matcher.h \
 		   headers/measure.h \
 		   headers/rectification.h \
-		   headers/ruler.h 
+		   headers/ruler.h \
+		   headers/i2cworker.h \
+		   headers/imuworker.h \
+		   third_party/i2c/i2c.h \
+		   third_party/imu/JY901.h 
 SOURCES += main.cpp \
     src/mainwidget.cpp \
 	src/sessionholder.cpp \
@@ -51,7 +57,11 @@ SOURCES += main.cpp \
 	src/matcher.cpp \
 	src/measure.cpp \
 	src/rectification.cpp \
-	src/ruler.cpp 
+	src/ruler.cpp \
+	src/i2cworker.cpp \
+	src/imuworker.cpp \
+	third_party/i2c/i2c.c \
+	third_party/imu/JY901.c 
 FORMS += src/mainwidget.ui
 RESOURCES += resources/resources.qrc
 
