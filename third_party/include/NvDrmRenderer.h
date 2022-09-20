@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2016-2021, NVIDIA CORPORATION.  All rights reserved.
  * NVIDIA CORPORATION and its licensors retain all intellectual property
  * and proprietary rights in and to this software, related documentation
  * and any modifications thereto.  Any use, reproduction, disclosure or
@@ -265,6 +265,7 @@ private:
     int flippedFd;
     bool flipPending;
     bool renderingStarted;
+    bool planeIsSet;
 
     uint32_t hdrBlobId;
     bool hdrBlobCreated;
