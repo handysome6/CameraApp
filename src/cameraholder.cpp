@@ -54,7 +54,7 @@ bool CameraHolder::initAll()
         consumerThread->moveToThread(thread);
         connect(thread, SIGNAL(started()), consumerThread, SLOT(startPreview()));
         connect(this, SIGNAL(startSignal()), consumerThread, SLOT(startPreview()));
-        connect(consumerThread, SIGNAL(captureSucceed(std::string)), this, SIGNAL(captureSucceed(std::string)));
+        connect(consumerThread, SIGNAL(captureSucceed(QString)), this, SIGNAL(captureSucceed(QString)));
         thread->start();
     }
 

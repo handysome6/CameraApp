@@ -22,6 +22,9 @@
 #include <fstream>
 #include <thread>
 
+// #include <QString>
+#include <string>
+
 //#include <JetsonGPIO.h>
 
 using namespace Argus;

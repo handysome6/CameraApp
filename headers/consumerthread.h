@@ -16,7 +16,7 @@ public:
     bool allFramesEmpty();
 
 signals:
-    void captureSucceed(std::string);
+    void captureSucceed(QString);
 
 public slots:
     bool startPreview();

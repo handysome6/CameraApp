@@ -1,10 +1,13 @@
 #include "mainwidget.h"
 #include "ui_mainwidget.h"
+#include "measure.h"
 
 #include <QDebug>
 #include <QThread>
 #include <QWindow>
 #include <QFileDialog>
+
+std::string camera_path = "/home/jetson/CameraApp/example/camera_model.json";
 
 
 MainWidget::MainWidget(QWidget *parent) :
@@ -20,7 +23,7 @@ MainWidget::MainWidget(QWidget *parent) :
     cameraHolder->moveToThread(thread);
     connect(thread, SIGNAL(started()), cameraHolder, SLOT(initAll()));
     connect(cameraHolder, SIGNAL(xWindowReady(int)), this, SLOT(on_xWindowReady(int)));
-    connect(cameraHolder, SIGNAL(captureSucceed(std::string)), this, SLOT(captureFrame()));
+    connect(cameraHolder, SIGNAL(captureSucceed(QString)), this, SLOT(on_captureSucceed(QString)));
     // connect(worker, SIGNAL(finished()), thread, SLOT(quit()));
     // connect(worker, SIGNAL(finished()), worker, SLOT(deleteLater()));
     // connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
@@ -50,9 +53,10 @@ void MainWidget::on_xWindowReady(int wid)
     QThread::msleep(10);
 }
 
-void MainWidget::on_captureSucceed(std::string img_path)
+void MainWidget::on_captureSucceed(QString img_path)
 {
-    this->img_path = img_path;
+    qDebug() << "Capture Succeed!";
+    this->img_path = img_path.toStdString();
 }
 
 
@@ -68,6 +72,7 @@ void MainWidget::on_openFile_clicked()
         qDebug() << "Selected photo: " << fileName;
         std::string img_path = fileName.toStdString();
         // call External measure code... TODO
+        measure(img_path, camera_path.c_str());
     }
 }
 
@@ -82,9 +87,11 @@ void MainWidget::on_takePhoto_clicked()
 
 void MainWidget::on_measure_clicked()
 {
+    qDebug() << "measure button clicked! ";
     if (!img_path.empty())
     {
         qDebug() << "Measure new photo: " << img_path.c_str();
         // call External measure code... TODO
+        measure(img_path, camera_path.c_str());
     }
 }

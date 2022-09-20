@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
                 // flip_flag = 1;
                 break;
             default:
-                exit();
+                exit(1);
         }
 
     if (hflag)
@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
             << "This is a camera app for taking photo and measuring length." << std::endl
             << "\t -h: print help message" << std::endl
             << "\t -f: flip camera image " << std::endl;
-        exit();
+        exit(0);
     }
 
 

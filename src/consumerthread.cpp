@@ -2,6 +2,7 @@
 #include <ctime>
 #include <locale>
 #include <QThread>
+#include <QString>
 
 int flip_flag = 0;
 
@@ -302,7 +303,8 @@ void ConsumerThread::capture()
         outputFile->write((char*)buffer, size);
         delete outputFile;
     }
-    emit captureSucceed(filename);
+    // emit captureSucceed(filename);
+    emit captureSucceed(QString::fromStdString(filename));
 
     preview_mode = true;
 }

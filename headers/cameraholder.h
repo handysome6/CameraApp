@@ -6,7 +6,7 @@
 #include "sessionholder.h"
 #include "consumerthread.h"
 #include "providerthread.h"
-
+#include <QString>
 
 class CameraHolder : public QObject
 {
@@ -29,7 +29,7 @@ signals:
     void xWindowReady(int);
     void startSignal();
     void finished();
-    void captureSucceed(std::string);
+    void captureSucceed(QString);
 
 private:
     // add your variables here
