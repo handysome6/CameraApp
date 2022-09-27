@@ -299,7 +299,7 @@ void ConsumerThread::capture()
     {
         unsigned long size = JPEG_BUFFER_SIZE;
         unsigned char* buffer = m_OutputBuffer;
-        m_JpegEncoder->encodeFromFd(m_sbsFrame, JCS_YCbCr, &buffer, size, 100);
+        m_JpegEncoder->encodeFromFd(m_sbsFrame, JCS_YCbCr, &buffer, size, 95);
         outputFile->write((char*)buffer, size);
         delete outputFile;
     }
