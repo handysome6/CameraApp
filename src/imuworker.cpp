@@ -37,7 +37,7 @@ void IMUWorker::stop()
 int IMUWorker::readXYZ()
 {
     int UART_fd = open_port(1);
-	if (set_uart_config(UART_fd, 230400, 'S') < 0)
+	if (set_uart_config(UART_fd, 115200, 'S') < 0)
 	{
 		perror("Failed to set UART.");
 		exit(1);
