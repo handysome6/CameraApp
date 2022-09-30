@@ -38,11 +38,6 @@ HEADERS += headers/mainwidget.h \
 		   headers/providerthread.h \
 		   headers/consumerthread.h \
 		   headers/constants.h \
-		   headers/click_coord.h \
-		   headers/matcher.h \
-		   headers/measure.h \
-		   headers/rectification.h \
-		   headers/ruler.h \
 		   headers/i2cworker.h \
 		   headers/imuworker.h \
 		   third_party/i2c/i2c.h \
@@ -53,11 +48,6 @@ SOURCES += main.cpp \
 	src/cameraholder.cpp \
 	src/providerthread.cpp \
 	src/consumerthread.cpp \
-	src/click_coord.cpp \
-	src/matcher.cpp \
-	src/measure.cpp \
-	src/rectification.cpp \
-	src/ruler.cpp \
 	src/i2cworker.cpp \
 	src/imuworker.cpp \
 	third_party/i2c/i2c.c \

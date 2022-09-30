@@ -1,6 +1,5 @@
 #include "mainwidget.h"
 #include "ui_mainwidget.h"
-#include "measure.h"
 #include "i2cworker.h"
 #include "imuworker.h"
 
@@ -121,7 +120,6 @@ void MainWidget::on_openFile_clicked()
         qDebug() << "Selected photo: " << fileName;
         std::string img_path = fileName.toStdString();
         // call External measure code... TODO
-        measure(img_path, camera_path.c_str());
     }
 }
 
@@ -141,6 +139,5 @@ void MainWidget::on_measure_clicked()
     {
         qDebug() << "Measure new photo: " << img_path.c_str();
         // call External measure code... TODO
-        measure(img_path, camera_path.c_str());
     }
 }
