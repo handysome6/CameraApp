@@ -1,7 +1,7 @@
 #ifndef I2CWORKER
 #define I2CWORKER
 
-#include "i2c.h"
+#include "i2c/i2c.h"
 
 #include <QObject>
 #include <stdio.h>

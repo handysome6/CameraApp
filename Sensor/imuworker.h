@@ -1,7 +1,7 @@
 #ifndef IMUWORKER
 #define IMUWORKER
 
-#include "JY901.h"
+#include "imu/JY901.h"
 
 #include <QObject>
 
