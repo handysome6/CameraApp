@@ -2,6 +2,7 @@
 #include "ui_mainwidget.h"
 #include "i2cworker.h"
 #include "imuworker.h"
+#include "guimeasure.h"
 
 #include <QDebug>
 #include <QThread>
@@ -9,7 +10,8 @@
 #include <QFileDialog>
 #include <QString>
 
-std::string camera_path = "/home/jetson/CameraApp/example/camera_model.json";
+const char* camera_path = "/home/jetson/CameraApp/example/camera_model.json";
+std::string filename = "/home/jetson/CameraApp/build/sbs_100316001664784025.jpg";
 
 
 MainWidget::MainWidget(QWidget *parent) :
@@ -31,8 +33,8 @@ MainWidget::MainWidget(QWidget *parent) :
     // connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
     thread->start();
 
-    startI2CWorker();
-    startIMUWorker();
+    //startI2CWorker();
+    //startIMUWorker();
 }
 
 MainWidget::~MainWidget()
@@ -120,6 +122,8 @@ void MainWidget::on_openFile_clicked()
         qDebug() << "Selected photo: " << fileName;
         std::string img_path = fileName.toStdString();
         // call External measure code... TODO
+        GuiMeasure *meausre = new GuiMeasure(img_path, camera_path);
+        meausre->show();
     }
 }
 
@@ -139,5 +143,7 @@ void MainWidget::on_measure_clicked()
     {
         qDebug() << "Measure new photo: " << img_path.c_str();
         // call External measure code... TODO
+        GuiMeasure *meausre = new GuiMeasure(img_path, camera_path);
+        meausre->show();
     }
 }

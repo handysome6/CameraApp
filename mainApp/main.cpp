@@ -1,5 +1,7 @@
 #include "mainwidget.h"
 #include "constants.h"
+#include "guimeasure.h"
+
 #include <QApplication>
 #include <unistd.h>
 #include <iostream>
@@ -38,6 +40,12 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MainWidget w;
     w.show();
+
+    // std::string filename = "/home/jetson/CameraApp/build/sbs_100316001664784025.jpg";
+    // const char* camera_path = "/home/jetson/CameraApp/example/camera_model.json";
+    // GuiMeasure w(filename, camera_path);
+    // w.show();
+
 
     return a.exec();
 }
