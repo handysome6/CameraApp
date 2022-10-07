@@ -12,6 +12,8 @@
 #include <fstream>
 #include <QThread>
 #include <Qt>
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 GuiMeasure::GuiMeasure(const string& filename, const char* cameraPath, QWidget *parent)
     : QWidget(parent)
@@ -26,7 +28,12 @@ GuiMeasure::GuiMeasure(const string& filename, const char* cameraPath, QWidget *
     qDebug() << "Good";
 
     /* load image */
-    Mat imgLR = imread(filename);
+    int width, height, bpp;
+    rgb_image = stbi_load(filename.c_str(), &width, &height, &bpp, 3);
+    Mat imgTemp(height, width, CV_8UC3, rgb_image);
+    Mat imgLR;
+    cvtColor (imgTemp, imgLR, COLOR_RGB2BGR);
+    /* rectify image using cam model */
     StereoRectify rectifier = StereoRectify(cameraModel, imgLR, leftImg, rightImg);
     qDebug() << "Image rectifiy finished";
 
@@ -44,11 +51,27 @@ GuiMeasure::GuiMeasure(const string& filename, const char* cameraPath, QWidget *
     ui->gridLayout->replaceWidget(ui->widget, leftView);
 
     showMaximized();
+    setAttribute(Qt::WA_DeleteOnClose);
 
 //    QTransform matrix = QTransform();
 //    matrix.scale(0.5, 0.5);
 //    view->setTransform(matrix);
 }
+
+GuiMeasure::~GuiMeasure()
+{
+    qDebug() << "deleting pointers...";
+    delete ui;
+    delete leftView;
+    delete rightView;
+    delete crossWidget;
+    leftImg.release();
+    rightImg.release();
+    leftGray.release();
+    rightGray.release();
+    stbi_image_free(rgb_image);
+}
+
 
 void GuiMeasure::showEvent( QShowEvent* event )
 {
@@ -361,7 +384,7 @@ void GuiMeasure::showResult()
     QPixmap pixmap = QPixmap::fromImage (qImage);
     QGraphicsPixmapItem* item = new QGraphicsPixmapItem(pixmap);
 
-    QGraphicsView* resultView = new QGraphicsView();
+    MyGraphicsView* resultView = new MyGraphicsView();
     resultView->setScene(new QGraphicsScene());
     resultView->scene()->addItem(item);
     resultView->showMaximized();
@@ -369,6 +392,7 @@ void GuiMeasure::showResult()
         resultView->fitInView(item, Qt::KeepAspectRatio);
     });
     resultView->setWindowTitle("Measure Result");
+    resultView->setAttribute((Qt::WA_DeleteOnClose));
 
     this->close();
 }

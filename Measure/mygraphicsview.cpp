@@ -12,7 +12,10 @@ MyGraphicsView::MyGraphicsView()
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
-MyGraphicsView::~MyGraphicsView(){};
+MyGraphicsView::~MyGraphicsView()
+{
+    delete this->scene();
+};
 
 void MyGraphicsView::previewMode()
 {

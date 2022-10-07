@@ -30,6 +30,7 @@ public:
     GuiMeasure(const string& filename,
              const char* cameraPath,
              QWidget *parent = nullptr);
+    ~GuiMeasure();
 
 protected:
     void showEvent( QShowEvent* event ) override;
@@ -56,6 +57,7 @@ private:
     CrossWidget* crossWidget;
     bool SELECTING_LEFT = true;
 
+    uint8_t* rgb_image;
     Mat leftImg, rightImg;
     Mat leftGray, rightGray;
 

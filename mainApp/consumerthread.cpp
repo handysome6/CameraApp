@@ -4,7 +4,7 @@
 #include <QThread>
 #include <QString>
 
-int flip_flag = 1;
+int flip_flag = 0;
 
 ConsumerThread::ConsumerThread(std::vector<OutputStream*>& streams, 
     NvEglRenderer* renderer) :
