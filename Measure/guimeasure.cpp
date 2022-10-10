@@ -393,6 +393,8 @@ void GuiMeasure::showResult()
     });
     resultView->setWindowTitle("Measure Result");
     resultView->setAttribute((Qt::WA_DeleteOnClose));
-
+    
+    Result.release();
+    rgbMat.release();
     this->close();
 }
